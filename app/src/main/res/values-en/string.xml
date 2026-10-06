@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="app_name">Weather</string>
+
+    <string name="choose_weather">Choose the weather:</string>
+    <string name="show_result">Show result</string>
+
+    <string name="sunny_reaction">Today is a wonderful sunny day! </string>
+    <string name="rain_reaction">Dont forget to take an umbrella!</string>
+    <string name="snow_reaction">Dress warmly!️</string>
+    <string name="storm_reaction">It is better to stay at home! </string>
+    <string name="fog_reaction">Be careful on the road! </string>
+
+    <string-array name="weather_options">
+        <item>Sunny</item>
+        <item> Rain</item>
+        <item> Snow</item>
+        <item> Storm</item>
+        <item> Fog</item>
+    </string-array>
+
+</resources>
