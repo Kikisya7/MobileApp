@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         val languageSpinner = findViewById<Spinner>(R.id.languageSpinner)
 
         // Поле для введення повідомлення
-        val messageEditText = findViewById<EditText>(R.id.messageEditText)
+        val messageEditText =
+            findViewById<EditText>(R.id.messageEditText)
 
         // Кнопка для відкриття повідомлення у новому вікні
         val openMessageButton =
@@ -36,9 +38,29 @@ class MainActivity : AppCompatActivity() {
         val shareMessageButton =
             findViewById<Button>(R.id.shareMessageButton)
 
+        // Елементи таймера
+        val timerTextView =
+            findViewById<TextView>(R.id.timerTextView)
+
+        val startTimerButton =
+            findViewById<Button>(R.id.startTimerButton)
+
+        val stopTimerButton =
+            findViewById<Button>(R.id.stopTimerButton)
+
+        val resetTimerButton =
+            findViewById<Button>(R.id.resetTimerButton)
+
+        // ViewModel для збереження стану таймера
+        val timerViewModel =
+            ViewModelProvider(this)[TimerViewModel::class.java]
+
         // Отримуємо збережену мову
-        val preferences = getSharedPreferences("settings", MODE_PRIVATE)
-        val savedLanguage = preferences.getString("language", "uk")
+        val preferences =
+            getSharedPreferences("settings", MODE_PRIVATE)
+
+        val savedLanguage =
+            preferences.getString("language", "uk")
 
         // Встановлюємо правильну позицію Spinner
         languageSpinner.setSelection(
@@ -73,7 +95,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
+                override fun onNothingSelected(
+                    parent: AdapterView<*>?
+                ) {
                 }
             }
 
@@ -83,28 +107,48 @@ class MainActivity : AppCompatActivity() {
             when (weatherSpinner.selectedItemPosition) {
 
                 0 -> {
-                    resultText.text = getString(R.string.sunny_reaction)
-                    mainLayout.setBackgroundResource(R.drawable.sunny)
+                    resultText.text =
+                        getString(R.string.sunny_reaction)
+
+                    mainLayout.setBackgroundResource(
+                        R.drawable.sunny
+                    )
                 }
 
                 1 -> {
-                    resultText.text = getString(R.string.rain_reaction)
-                    mainLayout.setBackgroundResource(R.drawable.rain)
+                    resultText.text =
+                        getString(R.string.rain_reaction)
+
+                    mainLayout.setBackgroundResource(
+                        R.drawable.rain
+                    )
                 }
 
                 2 -> {
-                    resultText.text = getString(R.string.snow_reaction)
-                    mainLayout.setBackgroundResource(R.drawable.snow)
+                    resultText.text =
+                        getString(R.string.snow_reaction)
+
+                    mainLayout.setBackgroundResource(
+                        R.drawable.snow
+                    )
                 }
 
                 3 -> {
-                    resultText.text = getString(R.string.storm_reaction)
-                    mainLayout.setBackgroundResource(R.drawable.storm)
+                    resultText.text =
+                        getString(R.string.storm_reaction)
+
+                    mainLayout.setBackgroundResource(
+                        R.drawable.storm
+                    )
                 }
 
                 4 -> {
-                    resultText.text = getString(R.string.fog_reaction)
-                    mainLayout.setBackgroundResource(R.drawable.fog)
+                    resultText.text =
+                        getString(R.string.fog_reaction)
+
+                    mainLayout.setBackgroundResource(
+                        R.drawable.fog
+                    )
                 }
             }
         }
@@ -125,45 +169,65 @@ class MainActivity : AppCompatActivity() {
                         0 -> {
                             resultText.text =
                                 getString(R.string.sunny_reaction)
-                            mainLayout.setBackgroundResource(R.drawable.sunny)
+
+                            mainLayout.setBackgroundResource(
+                                R.drawable.sunny
+                            )
                         }
 
                         1 -> {
                             resultText.text =
                                 getString(R.string.rain_reaction)
-                            mainLayout.setBackgroundResource(R.drawable.rain)
+
+                            mainLayout.setBackgroundResource(
+                                R.drawable.rain
+                            )
                         }
 
                         2 -> {
                             resultText.text =
                                 getString(R.string.snow_reaction)
-                            mainLayout.setBackgroundResource(R.drawable.snow)
+
+                            mainLayout.setBackgroundResource(
+                                R.drawable.snow
+                            )
                         }
 
                         3 -> {
                             resultText.text =
                                 getString(R.string.storm_reaction)
-                            mainLayout.setBackgroundResource(R.drawable.storm)
+
+                            mainLayout.setBackgroundResource(
+                                R.drawable.storm
+                            )
                         }
 
                         4 -> {
                             resultText.text =
                                 getString(R.string.fog_reaction)
-                            mainLayout.setBackgroundResource(R.drawable.fog)
+
+                            mainLayout.setBackgroundResource(
+                                R.drawable.fog
+                            )
                         }
                     }
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
+                override fun onNothingSelected(
+                    parent: AdapterView<*>?
+                ) {
                 }
             }
 
         // Відкриття повідомлення у новому вікні
         openMessageButton.setOnClickListener {
 
-            val message = messageEditText.text.toString()
+            val message =
+                messageEditText.text.toString()
 
-            val intent = Intent(this, MessageActivity::class.java)
+            val intent =
+                Intent(this, MessageActivity::class.java)
+
             intent.putExtra("message", message)
 
             startActivity(intent)
@@ -172,25 +236,102 @@ class MainActivity : AppCompatActivity() {
         // Надсилання повідомлення через інші додатки
         shareMessageButton.setOnClickListener {
 
-            val message = messageEditText.text.toString()
+            val message =
+                messageEditText.text.toString()
 
-            val sendIntent = Intent(Intent.ACTION_SEND)
+            val sendIntent =
+                Intent(Intent.ACTION_SEND)
+
             sendIntent.type = "text/plain"
-            sendIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                message
+            )
 
             val shareIntent =
-                Intent.createChooser(sendIntent, "Надіслати через")
+                Intent.createChooser(
+                    sendIntent,
+                    "Надіслати через"
+                )
 
             startActivity(shareIntent)
+        }
+
+        // Функція оновлення часу
+        fun updateTimerText(millis: Long) {
+
+            val seconds = millis / 1000
+
+            val minutesPart = seconds / 60
+            val secondsPart = seconds % 60
+
+            timerTextView.text =
+                String.format(
+                    Locale.getDefault(),
+                    "%02d:%02d",
+                    minutesPart,
+                    secondsPart
+                )
+        }
+
+        // Показуємо поточний час таймера
+        updateTimerText(timerViewModel.timeLeft)
+
+        // Відновлюємо таймер після повороту
+        // або зміни розміру вікна
+        timerViewModel.restore(
+
+            onTick = { millis ->
+                updateTimerText(millis)
+            },
+
+            onFinish = {
+                updateTimerText(0)
+            }
+        )
+
+        // Запуск таймера
+        startTimerButton.setOnClickListener {
+
+            timerViewModel.start(
+
+                onTick = { millis ->
+                    updateTimerText(millis)
+                },
+
+                onFinish = {
+                    updateTimerText(0)
+                }
+            )
+        }
+
+        // Зупинка таймера
+        stopTimerButton.setOnClickListener {
+
+            timerViewModel.stop()
+        }
+
+        // Скидання таймера
+        resetTimerButton.setOnClickListener {
+
+            timerViewModel.reset()
+
+            updateTimerText(
+                timerViewModel.timeLeft
+            )
         }
     }
 
     private fun setLocale(language: String) {
 
         val locale = Locale(language)
+
         Locale.setDefault(locale)
 
-        val configuration = Configuration(resources.configuration)
+        val configuration =
+            Configuration(resources.configuration)
+
         configuration.setLocale(locale)
 
         resources.updateConfiguration(
