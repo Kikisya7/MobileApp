@@ -46,4 +46,25 @@
         android:text=""
         android:textSize="20sp" />
 
+    <EditText
+        android:id="@+id/messageEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="Введіть повідомлення"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/openMessageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Відкрити в новому вікні" />
+
+    <Button
+        android:id="@+id/shareMessageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Надіслати через інший додаток" />
 </LinearLayout>
