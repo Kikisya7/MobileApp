@@ -1,8 +1,10 @@
+
 package com.example.lab2
 
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
@@ -16,9 +18,24 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
+    private var authTimer: CountDownTimer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Проверка авторизации
+        val authPreferences = getSharedPreferences("auth", MODE_PRIVATE)
+
+        if (!authPreferences.getBoolean("is_logged_in", false)) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
+
         setContentView(R.layout.activity_main)
+
+        // Запускаем таймер авторизации
+        startAuthTimer()
 
         val weatherSpinner = findViewById<Spinner>(R.id.weatherSpinner)
         val button1 = findViewById<Button>(R.id.button1)
@@ -258,7 +275,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        // Функція оновлення часу
+        // Функція оновлення часу звичайного таймера
         fun updateTimerText(millis: Long) {
 
             val seconds = millis / 1000
@@ -291,7 +308,7 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        // Запуск таймера
+        // Запуск звичайного таймера
         startTimerButton.setOnClickListener {
 
             timerViewModel.start(
@@ -323,6 +340,60 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Таймер авторизації на 5 хвилин
+    private fun startAuthTimer() {
+
+        val preferences = getSharedPreferences("auth", MODE_PRIVATE)
+
+        val endTime = preferences.getLong("session_end", 0L)
+
+        val remainingTime = endTime - System.currentTimeMillis()
+
+        if (remainingTime <= 0) {
+            logout()
+            return
+        }
+
+        authTimer?.cancel()
+
+        authTimer = object : CountDownTimer(remainingTime, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                // Очікування завершення авторизації
+            }
+
+            override fun onFinish() {
+                logout()
+            }
+
+        }.start()
+    }
+
+    // Вихід з облікового запису
+    private fun logout() {
+
+        authTimer?.cancel()
+
+        val preferences = getSharedPreferences("auth", MODE_PRIVATE)
+
+        preferences.edit().clear().apply()
+
+        val intent = Intent(this, LoginActivity::class.java)
+
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+        startActivity(intent)
+
+        finish()
+    }
+
+    override fun onDestroy() {
+        authTimer?.cancel()
+        super.onDestroy()
+    }
+
+    // Зміна мови
     private fun setLocale(language: String) {
 
         val locale = Locale(language)

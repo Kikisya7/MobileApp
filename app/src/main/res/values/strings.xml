@@ -8,7 +8,7 @@
 
     <string name="sunny_reaction">Сьогодні чудова сонячна погода! ☀️</string>
     <string name="rain_reaction">Не забудьте взяти парасольку! 🌧</string>
-    <string name="snow_reaction">Одягніться тепліше! ❄️</string>
+    <string name="snow_reaction">Одягніться тепліше! </string>
     <string name="storm_reaction">Краще залишитися вдома! ⛈</string>
     <string name="fog_reaction">Будьте обережні на дорозі! 🌫</string>
 
